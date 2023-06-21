@@ -10,6 +10,7 @@ RUN apt-get update
 RUN #apt-get -y install vim
 RUN apt-get -y install maven
 RUN apt-get -y install git
+RUN apt-get -y install netcat
 
 RUN echo "installing kafka-connect"
 RUN git clone https://github.com/andr2ei/kafka-connect.git
@@ -35,4 +36,6 @@ COPY scripts/get-users.sh /opt
 RUN chmod -R 777 /opt
 
 ENTRYPOINT [ "/opt/bitnami/scripts/kafka/entrypoint.sh" ]
-CMD [ "/opt/bitnami/scripts/kafka/run.sh" ]
+CMD /opt/bitnami/scripts/kafka/run.sh & \
+    while ! echo exit | nc localhost 9092; do sleep 2; done && \
+    /opt/run-connect.sh
