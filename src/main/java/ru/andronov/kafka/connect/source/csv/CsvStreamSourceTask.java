@@ -4,6 +4,7 @@ import org.apache.kafka.connect.data.Schema;
 import org.apache.kafka.connect.source.SourceRecord;
 import org.apache.kafka.connect.source.SourceTask;
 import org.apache.kafka.connect.source.SourceTaskContext;
+import ru.andronov.kafka.connect.source.csv.schema.UserSchema;
 
 import java.io.*;
 import java.util.*;
@@ -99,8 +100,10 @@ public class CsvStreamSourceTask extends SourceTask {
                             String[] lineTokens = line.split(";");
                             String key = lineTokens[0];
                             Map<String, Long> srcOffset = Collections.singletonMap(POSITION_FIELD, i);
-                            SourceRecord sourceRecord = new SourceRecord(srcPartition,
-                                    srcOffset, topic, Schema.STRING_SCHEMA, key, Schema.STRING_SCHEMA, line);
+                            SourceRecord sourceRecord = new SourceRecord(
+                                    srcPartition, srcOffset, topic,
+                                    Schema.STRING_SCHEMA, key,
+                                    UserSchema.getSchema(), UserSchema.getStruct(line));
                             sourceRecords.add(sourceRecord);
                         }
                         i++;
