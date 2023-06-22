@@ -17,6 +17,6 @@ public class UserSchema {
         String[] tokens = line.split(";");
         return new Struct(getSchema())
                 .put("name", tokens[1])
-                .put("age", tokens[2]);
+                .put("age", Integer.parseInt(tokens[2]));
     }
 }
