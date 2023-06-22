@@ -9,7 +9,7 @@ public class UserSchema {
     public static Schema getSchema() {
         return SchemaBuilder.struct().name("user")
                 .field("name", Schema.STRING_SCHEMA)
-                .field("age", Schema.INT16_SCHEMA)
+                .field("age", Schema.INT32_SCHEMA)
                 .build();
     }
 
